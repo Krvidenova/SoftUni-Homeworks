@@ -1,0 +1,109 @@
+﻿@model PostDetailsViewModel
+@inject Blog.Services.User.Interfaces.IUserProfileService UserProfileService
+@{
+    ViewData["Title"] = "Post Details Page";
+    var userId = await this.UserProfileService.GetUserIdAsync(this.User.Identity.Name);
+}
+
+<div class="container">
+    <div class="section-top-border">
+        <a asp-area="Author" asp-controller="Posts" asp-action="Index" style="font-size: medium">Back to Manage Posts Page</a>
+        <h2 class="mt-3">@ViewData["Title"]</h2>
+        <div class="col-lg-9 mx-auto pb-30">
+            <div class="row col-lg-12 d-flex justify-content-between">
+                <h3 class="top-wrapper">
+                    Post ID: @Model.Id
+                </h3>
+                <h3 class="top-wrapper">
+                    Post Category: @Model.Category
+                </h3>
+                <div class="row align-items-center">
+                    @if (Model.AuthorId == userId)
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="pull-right edit" title="Edit post">
+                            <i class="lnr lnr-pencil font-weight-bold edit" style="font-size: xx-large"></i>
+                        </a>
+                    }
+                    @if (this.User.IsInRole("Administrator") && Model.CommentsCount == 0)
+                    {
+                        <a asp-area="Admin" asp-controller="Posts" asp-action="Delete" asp-route-id="@Model.Id" class="pull-right delete" title="Delete post">
+                            <i class="lnr lnr-cross font-weight-bold delete pl-5" style="font-size: xx-large"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+            <p>Slug: @Model.Slug</p>
+            @if (Model.LastUpdateDate != "")
+            {
+                <p>Last edited on: @Model.LastUpdateDate</p>
+            }
+            <img class="img-post" src="@Model.ImageUrl" width="100%" alt="">
+            <div class="top-wrapper">
+                <div class="row d-flex justify-content-between">
+                    <h2 class="col-lg-7 col-md-12 text-uppercase">
+                        @Model.Title
+                    </h2>
+                    <div class="col-lg-5 col-md-12 right-side d-flex justify-content-end p-0">
+                        <div class="desc">
+                            <h2>
+                                @Model.Author
+                            </h2>
+                            <h3>Published: @Model.CreationDate</h3>
+                            @if (Model.LastUpdateDate != "")
+                            {
+                                <h3>Last updated: @Model.LastUpdateDate</h3>
+                            }
+                        </div>
+                        <div class="user-img w-25">
+                            <img src="@Model.AuthorAvatarUrl" width="100%" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tags">
+                <ul>
+                    @Html.DisplayFor(model => model.Tags)
+                </ul>
+            </div>
+            <div class="single-post-content">
+                @Html.Raw(Model.Content)
+            </div>
+            <div class="bottom-wrapper">
+                <div class="row">
+                    <div class="col-lg-4 single-b-wrap col-md-12">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        @Model.ViewCounter views
+                    </div>
+                    <div class="col-lg-4 single-b-wrap col-md-12">
+                        <i class="fa fa-comment-o" aria-hidden="true"></i>
+                        @Model.CommentsCount comments
+                    </div>
+                </div>
+            </div>
+            @if (Model.CommentsCount != 0)
+            {
+                <section class="comment-sec-area pt-20 pb-80">
+                    <div class="container">
+                        <div class="text-center mb-40">
+                            <button id="load" class="primary-btn load-more pbtn-2 mx-auto">
+                                Load Comments
+                            </button>
+                        </div>
+                        <div class="row flex-column">
+                            <div id="comments"></div>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("button#load").click(function() {
+            $("button#load").parent().remove();
+            $("#comments").load("@Url.Action("LoadComments", new { postId = Model.Id})");
+        });
+    </script>
+}

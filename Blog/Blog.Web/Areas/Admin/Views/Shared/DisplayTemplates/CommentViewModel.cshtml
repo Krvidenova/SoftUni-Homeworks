@@ -1,0 +1,46 @@
+﻿@model CommentViewModel
+
+<div class="comment-list top-wrapper m-0">
+    <div class="row col-12 justify-content-between">
+        <a asp-area="Author"  asp-controller="Posts" asp-action="Details" asp-route-id="@Model.PostId" title="Post details">Post ID: @Model.PostId</a>
+        <p>Comment ID: @Model.Id</p>
+        <div class="row">
+            @if (!Model.IsApproved && !Model.IsCensored)
+            {
+                <a asp-area="Admin" asp-controller="Comments" asp-action="Approve" asp-route-id="@Model.Id" class="approve" title="Approve comment">
+                    <i class="lnr lnr-warning font-weight-bold approve" style="font-size: x-large"></i>
+                </a>
+                <a asp-area="Admin" asp-controller="Comments" asp-action="Edit" asp-route-id="@Model.Id" class="edit pl-5" title="Moderate comment">
+                    <i class="lnr lnr-pencil font-weight-bold edit" style="font-size: x-large"></i>
+                </a>
+            }
+            @if (Model.Replies.Count == 0)
+            {
+                <a asp-area="Admin" asp-controller="Comments" asp-action="Delete" asp-route-id="@Model.Id" class="delete pl-5" title="Delete comment">
+                    <i class="lnr lnr-cross font-weight-bold delete" style="font-size: x-large"></i>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="row col-12">
+        <div class="col-2 pl-0">
+            <img src="@Model.AuthorAvatarUrl" width="80%" alt="">
+        </div>
+        <div class="desc col-10 p-0">
+            <h5><a asp-area="Admin" asp-controller="Users" asp-action="Details" asp-route-id="@Model.AuthorId" title="User details">@Model.Author</a></h5>
+            <p class="date mb-1">@Model.CreationDate</p>
+            @if (Model.LastUpdateDate != string.Empty)
+            {
+                <p class="date">Edited on: @Model.LastUpdateDate</p>
+            }
+            <p class="comment">
+                @Model.Content
+            </p>
+        </div>
+    </div>
+</div>
+@Html.DisplayFor(model => model.Replies)
+
+
+
+

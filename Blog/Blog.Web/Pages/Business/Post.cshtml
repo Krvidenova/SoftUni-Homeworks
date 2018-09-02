@@ -1,0 +1,132 @@
+﻿@page "/Business/{id}/{slug}"
+@model Blog.Web.Pages.Business.PostModel
+@{
+    ViewData["Title"] = "Post details";
+}
+
+<section class="top-section-area section-gap">
+    <div class="container">
+        <div class="row justify-content-between align-items-center d-flex">
+            <div class="col-lg-8 top-left">
+                <h1 class="text-white mb-20">@ViewData["Title"]</h1>
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="">Home</a><span class="lnr lnr-arrow-right"></span></li>
+                    <li><a asp-page="/business/index">Business</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="col-lg-9 mx-auto pb-100 pt-100">
+        <img class="img-post" src="@Model.Post.ImageUrl" width="100%" alt="">
+        <div class="top-wrapper">
+            <div class="row d-flex justify-content-between">
+                <h2 class="col-lg-7 col-md-12 text-uppercase">
+                    @Model.Post.Title
+                </h2>
+                <div class="col-lg-5 col-md-12 right-side d-flex justify-content-end p-0">
+                    <div class="desc">
+                        <h2>
+                            @Model.Post.Author
+                        </h2>
+                        <h3>Published: @Model.Post.CreationDate</h3>
+                        @if (Model.Post.LastUpdateDate != "")
+                        {
+                            <h3>Last updated: @Model.Post.LastUpdateDate</h3>
+                        }
+                    </div>
+                    <div class="user-img w-25">
+                        <img src="@Model.Post.AuthorAvatarUrl" width="100%" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tags">
+            <ul>
+                @Html.DisplayFor(model => model.Post.Tags)
+            </ul>
+        </div>
+        <div class="single-post-content">
+            @Html.Raw(Model.Post.Content)
+        </div>
+        <div class="bottom-wrapper">
+            <div class="row">
+                <div class="col-lg-4 single-b-wrap col-md-12">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    @Model.Post.ViewCounter views
+                </div>
+                <div class="col-lg-4 single-b-wrap col-md-12">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    @Model.Post.CommentsCount comments
+                </div>
+            </div>
+        </div>
+        <section class="commentform-area comment-sec-area pb-100 pt-80" id="form">
+            <div class="container">
+                <div class="row flex-column">
+                    <div class="col-lg-8 mx-auto">
+                        <h5 class="text-uppercas pb-30">Leave a Comment</h5>
+                        <form method="post">
+                            <div class="form-group">
+                                <textarea asp-for="@Model.Message" class="form-control auto-text-area" rows="5" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'"></textarea>
+                                <span asp-validation-for="Message" class="text-danger"></span>
+                                <input type="hidden" name="PostId" value="@Model.Post.Id" />
+                                <input id ="inputId" type="hidden" name="CommentId" value="" />
+                                <input type="hidden" name="Slug" value="@Model.Post.Slug" />
+                            </div>
+                            @if (this.User.Identity.IsAuthenticated)
+                            {
+                                <button type="submit" class="primary-btn mt-20">Comment</button>
+                            }
+                            else
+                            {
+                                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@($"/{Constants.Business}/{Model.Post.Id}/{Model.Post.Slug}")" class="primary-btn mt-20">
+                                    Comment
+                                </a>
+                            }
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @if (Model.Post.CommentsCount != 0)
+        {
+            <section class="comment-sec-area pt-20 pb-80">
+                <div class="container">
+                    <div class="text-center mb-40">
+                        <button id="load" class="primary-btn load-more pbtn-2 mx-auto">
+                            Load Comments
+                        </button>
+                    </div>
+                    <div class="row flex-column pt-30">
+                        <div id="comments" class="d-none">
+                            <h5 class="text-uppercase pb-80">@Model.Post.CommentsCount Comments</h5>
+                            @await Component.InvokeAsync("CommentsByPostId", new { postId = Model.Post.Id })
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("button#load").click(function () {
+            $("button#load").parent().remove();
+            $("#comments").addClass("d-block");
+        });
+        $('.auto-text-area').on('keyup keydown change',
+            function () {
+                $(this).css('height', 'auto');
+                $(this).height(this.scrollHeight);
+            });
+    </script>
+}
+
+

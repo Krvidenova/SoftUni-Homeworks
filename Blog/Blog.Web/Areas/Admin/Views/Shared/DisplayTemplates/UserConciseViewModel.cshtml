@@ -1,0 +1,37 @@
+﻿@model UserConciseViewModel
+
+<div class="table-row p-0">
+    <div class="country font-weight-normal pl-2">@Model.Username</div>
+    <div class="country font-weight-normal">@Model.Email</div>
+    <div class="serial font-weight-normal">@Html.DisplayFor(model => model.IsAuthor)</div>
+    <div class="serial font-weight-normal">@Html.DisplayFor(model => model.IsAdmin)</div>
+    <div class="percentage pr-0">
+        <div class="button-group-area d-flex">
+            <a asp-area="Admin" asp-controller="Users" asp-action="Details" asp-route-id="@Model.Id" class="genric-btn pl-3 pr-3 info circle">
+                Details
+            </a>
+            @if (!Model.IsAdmin)
+            {
+                if (!Model.IsAuthor)
+                {
+                    <a asp-area="Admin" asp-controller="Users" asp-action="MakeAuthor" asp-route-id="@Model.Id" class="genric-btn pl-3 pr-3 success circle text-nowrap">
+                        Make author
+                    </a>
+                }
+                <a asp-area="Admin" asp-controller="Users" asp-action="ChangePassword" asp-route-id="@Model.Id" class="genric-btn pl-2 pr-2 warning circle text-nowrap">
+                    Change password
+                </a>
+                if (!Model.IsBanned)
+                {
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Ban" asp-route-id="@Model.Id" class="genric-btn pl-3 pr-3 danger circle">
+                        Ban
+                    </a>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center"><span class="text-danger pull-right">Banned</span></div>
+                }
+            }
+        </div>
+    </div>
+</div>

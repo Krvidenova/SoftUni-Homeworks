@@ -1,0 +1,76 @@
+﻿@model PostSearchBindingModel
+@{
+    ViewData["Title"] = "Manage Posts";
+}
+
+<div class="container">
+    <div class="section-top-border">
+        @if (this.User.IsInRole("Administrator"))
+        {
+            <a asp-area="Admin" asp-controller="Administration" asp-action="Index" style="font-size: medium">Back to Administration Page</a>
+        }
+        <h2 class="mb-20">@ViewData["Title"]</h2>
+        <a asp-area="Author" asp-controller="Posts" asp-action="Create" class="genric-btn primary circle arrow">
+            Create New Post
+            <span class="lnr lnr-arrow-right"></span>
+        </a>
+        <div class="col-lg-6 mx-auto mb-80">
+            <h3 class="text-center mb-10">Search post</h3>
+            <p class="text-danger font-weight-normal text-center">If you do not fill in any of the fields, all posts from the database will be displayed as a result - from newest to oldest.</p>
+            <hr />
+            <form method="post" asp-action="Search" id="submitForm">
+                @Html.FormGroupFor(m => m.PostId)
+                <div class="form-group">
+                    <label asp-for="@Model.Title"></label>
+                    <textarea asp-for="@Model.Title" class="single-input-primary auto-text-area" rows="2"></textarea>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Categories"></label>
+                    @Html.DropDownListFor(model => model.CategoryId, Model.Categories, null, new { @class = "single-input-primary form-select" })
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Authors"></label>
+                    @Html.DropDownListFor(model => model.AuthorId, Model.Authors, null, new { @class = "single-input-primary form-select" })
+                    <span asp-validation-for="AuthorId" class="text-danger"></span>
+                </div>
+                @Html.FormGroupFor(m => m.FromCreationDate)
+                @Html.FormGroupFor(m => m.ToCreationDate)
+                <div class="form-group button-group-area text-center">
+                    <button type="submit" class="genric-btn success circle">Search</button>
+                    <button type="reset" class="genric-btn default circle">Clear Form</button>
+                </div>
+            </form>
+        </div>
+        <div class="post-lists search-list col-10 mx-auto">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $('.auto-text-area').on('keyup keydown change',
+            function() {
+                $(this).css('height', 'auto');
+                $(this).height(this.scrollHeight);
+            });
+
+        $(function() {
+            $('form[id=submitForm]').submit(function(event) {
+                $.ajax({
+                    url: this.action,
+                    method: this.method,
+                    data: $(this).serialize(),
+                    success: function(result) {
+                        $('div.search-list').show();
+                        $('div.search-list').html(result);
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+}
+

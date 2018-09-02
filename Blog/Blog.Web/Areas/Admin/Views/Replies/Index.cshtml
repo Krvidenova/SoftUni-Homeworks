@@ -1,0 +1,88 @@
+﻿@model ReplySearchBindingModel
+@{
+    ViewData["Title"] = "Manage Replies";
+}
+
+<div class="container">
+    <div class="section-top-border">
+        <a asp-area="Admin" asp-controller="Administration" asp-action="Index" style="font-size: medium">Back to Administration Page</a>
+        <h2 class="mt-3 mb-20">@ViewData["Title"]</h2>
+        <hr />
+        <div class="col-lg-9 row mx-auto justify-content-between pt-30 pb-20 align-items-start">
+            <div class="col">
+                <div class="pb-50">
+                    <button class="genric-btn default circle" id="todaysReplies">
+                        Load Replies for <strong>@DateTime.Today.ToString("dd MMM yyyy")</strong>
+                    </button>
+                </div>
+                <div class="pb-40">
+                    <button class="genric-btn default circle" id="unverifiedReplies">
+                        Load Unverified Replies
+                        <i class="lnr lnr-warning font-weight-bold"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-5 mx-auto">
+                <h3 class="text-center mb-10">Search replies</h3>
+                <hr />
+                <form asp-action="Search" method="post" id="submitForm">
+                    @Html.FormGroupFor(model => model.FromCreationDate)
+                    @Html.FormGroupFor(model => model.ToCreationDate)
+                    <div class="form-group button-group-area text-center">
+                        <button type="submit" class="genric-btn success circle">Search</button>
+                        <button type="reset" class="genric-btn default circle">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-9 mx-auto pt-20 pb-30">
+            <section class="comment-sec-area">
+                <div class="container">
+                    <div class="row flex-column">
+                        <div id="replies"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#todaysReplies").click(function(event) {
+            $("div#replies").empty();
+            $("div#replies").load("@Url.Action("LoadTodayReplies", new { })");
+
+            event.preventDefault();
+        });
+
+        $("#unverifiedReplies").click(function(event) {
+            $("div#replies").empty();
+            $("div#replies").load("@Url.Action("LoadRepliesByApproval", new { isApproved = false })");
+
+            event.preventDefault();
+        });
+
+        $(function () {
+            $('form[id=submitForm]').submit(function (event) {
+                $.ajax({
+                    url: this.action,
+                    method: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $("div#replies").empty();
+                        $("div#replies").html(result);
+                    },
+                    error: function (){
+                        $("div#replies").empty();
+                        $("div#replies").html($('<h3 class="text-center text-danger">Unexpected error occurred loading data.<h3/>'));
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+}
+
+

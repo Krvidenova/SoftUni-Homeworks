@@ -1,0 +1,35 @@
+﻿@model CommentViewModel
+
+<div class="comment-list top-wrapper m-0">   
+    <div class="row col-12">
+        <div class="col-2 pl-0">
+            <img src="@Model.AuthorAvatarUrl" width="80%" alt="">
+        </div>
+        <div class="desc col-8 p-0">
+            <h5>@Model.Author</h5>
+            <p class="date mb-1">@Model.CreationDate</p>
+            @if (Model.LastUpdateDate != string.Empty)
+            {
+                <p class="date">Edited on: @Model.LastUpdateDate</p>
+            }
+            <p class="comment">
+                @Model.Content
+            </p>
+        </div>
+        <div class="reply-btn col-2">
+            <a href="#form" class="btn-reply p-2" onclick="document.getElementById('inputId').value = @Model.Id ">
+                reply <i class="lnr lnr-arrow-up" ></i> fill the form
+            </a>
+        </div>
+    </div>
+</div>
+@Html.DisplayFor(model => model.Replies)
+
+
+
+
+
+
+
+
+

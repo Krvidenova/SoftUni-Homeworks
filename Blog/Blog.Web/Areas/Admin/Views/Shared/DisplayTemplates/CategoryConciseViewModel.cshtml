@@ -1,0 +1,17 @@
+﻿@model CategoryConciseViewModel
+
+<div class="table-row p-0">
+    <div class="serial font-weight-normal">@Model.Order</div>
+    <div class="country font-weight-normal">@Model.Name</div>
+    <div class="percentage">
+        <div class="button-group-area d-flex">
+            <a asp-area="Admin" asp-controller="Categories" asp-action="Details" asp-route-id="@Model.Id" class="genric-btn info circle arrow">
+                Details<span class="lnr lnr-arrow-right"></span>
+            </a>
+            <a asp-area="Admin" asp-controller="Categories" asp-action="Edit" asp-route-id="@Model.Id" class="genric-btn warning circle arrow">
+                Edit<span class="lnr lnr-arrow-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+

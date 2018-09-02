@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CategoryHomeConciseViewModel>
+
+<section class="banner-area relative" id="home" data-parallax="scroll" data-image-src="img/header.jpg">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row fullscreen">
+            <div class="banner-content d-flex align-items-center col-lg-12 col-md-12 pl-4">
+                <h1>
+                    Welcome to <span style="color: #79a0fe">Blogger</span>! <br>
+                    Stay tuned for the latest tips and news  <br> from our team.
+                </h1>
+            </div>
+            <div class="head-bottom-meta d-flex justify-content-between col-lg-6 pl-2 navbar-nav">
+                <a href="#business" class="text-white text-uppercase"><i class="fa fa-long-arrow-down text-white"></i> Scroll Down</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.DisplayForModel()
+
+<!-- Start team Area -->
+<section class="with-background-area team-area section-gap" id="team">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-70 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">About Blogger Team</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center d-flex align-items-center">
+            <div class="col-lg-6 team-left">
+                <p>
+                    Lorem ipsum dolor sit amet, in amet pellentesque maecenas, congue rhoncus nam tellus, per varius fusce sed mauris quam, molestie dui est non facilisis nullam amet, est turpis dapibus. Risus vestibulum vestibulum lobortis ipsum sit quisque, accumsan malesuada enim lectus est elit nonummy, ante pellentesque ornare urna dictum omnis leo. Nonummy dignissimos sed donec cras porttitor, vestibulum libero quis ipsum vitae, venenatis ut mauris eros laoreet urna.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, in amet pellentesque maecenas, congue rhoncus nam tellus, per varius fusce sed mauris quam, molestie dui est non facilisis nullam amet, est turpis dapibus.
+                </p>
+            </div>
+            <div class="col-lg-6 team-right d-flex justify-content-center">
+                <div class="row active-team-carusel">
+                    @await Component.InvokeAsync("TeamMembers", new {}) 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End team Area -->

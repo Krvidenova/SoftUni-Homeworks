@@ -1,0 +1,11 @@
+﻿@using Blog.Web.Extensions
+@using Blog.Common.Infrastructure
+
+@if (TempData.ContainsKey(Constants.TempDataKey))
+{
+    var messageModel = TempDataExtensions.Get<MessageModel>(TempData, Constants.TempDataKey);
+
+    <div class="container">
+        <message type="@messageModel.Type" message="@messageModel.Message"></message>
+    </div>
+}

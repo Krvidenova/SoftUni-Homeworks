@@ -1,0 +1,32 @@
+﻿@model PostConciseViewModel
+
+@{
+    string route = $"/{Model.CategoryName}/{Model.Id}/{Model.Slug}";
+}
+
+
+<div class="single-list single-travel flex-row d-flex col-6">
+    <div class="thumb w-25 col-4 p-0">
+        <div class="date">
+            <span>@Model.CreationDate</span><br>@Model.CreationYear
+        </div>
+        <img src="@Model.ImageUrl" alt="" width="100%" height="85%">
+    </div>
+    <div class="detail col-8 m-0 pr-0">
+        <a href="@route" Title="Details">
+            <h4 class="pb-20">
+                @Model.Title
+            </h4>
+        </a>
+        <p>
+            @Model.Content
+        </p>
+        <p class="footer">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            @Model.ViewCounter views
+            <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i>
+            @Model.CommentsCount comments
+        </p>
+    </div>
+</div>
+

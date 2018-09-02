@@ -1,0 +1,41 @@
+﻿@model Blog.Common.Admin.ViewModels.ReplyViewModel
+
+<div class="comment-list pl-5">
+    <div class="row col-12 justify-content-between">
+        <p>Reply ID: @Model.Id</p>
+        <div class="row">
+            @if (this.User.IsInRole("Administrator"))
+            {
+                if (!Model.IsApproved && !Model.IsCensored)
+                {
+                    <a asp-area="Admin" asp-controller="Replies" asp-action="Approve" asp-route-id="@Model.Id" class="approve" title="Approve reply">
+                        <i class="lnr lnr-warning font-weight-bold approve" style="font-size: x-large"></i>
+                    </a>
+                    <a asp-area="Admin" asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="edit pl-5" title="Moderate reply">
+                        <i class="lnr lnr-pencil font-weight-bold edit" style="font-size: x-large"></i>
+                    </a>
+                }
+                <a asp-area="Admin" asp-controller="Replies" asp-action="Delete" asp-route-id="@Model.Id" class="delete pl-5" title="Delete reply">
+                    <i class="lnr lnr-cross font-weight-bold delete" style="font-size: x-large"></i>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="row col-12">
+        <div class="col-2 pl-0">
+            <img src="@Model.AuthorAvatarUrl" width="80%" alt="">
+        </div>
+        <div class="desc col-10 p-0">
+            <h5>@Model.Author</h5>
+            <p class="date mb-1">@Model.CreationDate</p>
+            @if (Model.LastUpdateDate != string.Empty)
+            {
+                <p class="date">Edited on: @Model.LastUpdateDate</p>
+            }
+            <p class="comment">
+                @Model.Content
+            </p>
+        </div>
+    </div>
+</div>
+

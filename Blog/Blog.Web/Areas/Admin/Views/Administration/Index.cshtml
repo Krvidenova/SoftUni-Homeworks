@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Administration page";
+}
+
+<div class="container">
+    <div class="section-top-border">
+        <h2 class="mb-30">@ViewData["Title"]</h2>
+        <h4>Hello <span class="text-uppercase">@this.User.Identity.Name</span>! Enjoy your work today!</h4>
+        <hr />
+        <div class="button-group-area mt-20">
+            <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="genric-btn primary circle arrow">
+                Categories
+                <span class="lnr lnr-arrow-right"></span>
+            </a>
+            <a asp-area="Author" asp-controller="Posts" asp-action="Index" class="genric-btn success circle arrow">
+                Posts
+                <span class="lnr lnr-arrow-right"></span>
+            </a>
+            <a asp-area="Admin" asp-controller="Comments" asp-action="Index" class="genric-btn primary circle arrow">
+                Comments
+                <span class="lnr lnr-arrow-right"></span>
+            </a>
+            <a asp-area="Admin" asp-controller="Replies" asp-action="Index" class="genric-btn success circle arrow">
+                Replies
+                <span class="lnr lnr-arrow-right"></span>
+            </a>
+            <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="genric-btn primary circle arrow">
+                Users
+                <span class="lnr lnr-arrow-right"></span>
+            </a>                 
+        </div>
+    </div>
+</div>
+
+

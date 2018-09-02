@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180814160456_Initial.cs" />
+    <Compile Remove="Migrations\20180815180802_UserUrls.cs" />
+    <Compile Remove="Migrations\20180817145606_initial.cs" />
+    <Compile Remove="Migrations\20180820165428_Initial.cs" />
+    <Compile Remove="Migrations\20180822214349_AddedProperties.cs" />
+    <Compile Remove="Migrations\20180830224137_add-migration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.Modes\Blog.Models.csproj" />
+  </ItemGroup>
+
+</Project>

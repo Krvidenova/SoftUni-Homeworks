@@ -1,0 +1,117 @@
+﻿@model UserDetailsViewModel
+@{
+    ViewData["Title"] = $"username:  {Model.Username}";
+}
+
+<div class="container">
+    <div class="section-top-border">
+        <a asp-area="Admin" asp-controller="Administration" asp-action="Index" style="font-size: medium">Back to Administration Page</a><br>
+        <a asp-area="Admin" asp-controller="Users" asp-action="Index" style="font-size: medium">Back to Manage Users Page</a>
+        <div class="d-flex align-items-center pt-30">
+            <div class="thumb w-25 h-50 mr-30">
+                <img src="@Model.AvatarUrl" alt="avatar" width="60%" />
+            </div>
+            <h2 class="mt-3 mb-20">@ViewData["Title"]</h2>
+        </div>
+        <hr />
+        <div class="with-background-area">
+            <div class="col-md-12 pl-3 pr-3 pb-2 pt-3 row justify-content-end">       
+                <a asp-action="ChangePassword"  asp-route-id="@Model.Id" class="pull-right edit" title="Change Password">
+                    <i class="fa fa-key edit" style="font-size: xx-large"></i>
+                </a>
+                @if (!Model.IsBanned)
+                {
+                    <a asp-action="Ban" asp-route-id="@Model.Id" class="pull-right delete pl-5" title="Ban">
+                        <i class="fa fa-ban delete" style="font-size: xx-large"></i>
+                    </a>
+                }
+                else
+                {
+                    <span class="text-danger font-weight-bold pl-5" style="font-size: larger">Banned</span>
+                }
+            </div>
+            <div id="info" class="row col-11 mx-auto pl-4 pr-4 pb-4 pt-0" style="font-size: larger">
+
+                @if (Model.Roles.Contains("Author") || Model.Roles.Contains("Administrator"))
+                {
+                    <div class="col-md-6 p-2">
+                        <label asp-for="FullName" class="font-weight-bold mr-4">Full Name:</label>
+                        @Model.FullName
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6 p-2">
+                        <label asp-for="Username" class="font-weight-bold mr-4">Username:</label>
+                        @Model.Username
+                    </div>
+                }
+                <div class="col-md-6 p-2">
+                    <label asp-for="Id" class="font-weight-bold mr-4">@nameof(Model.Id):</label>
+                    @Model.Id
+                </div>
+                <div class="col-md-6 p-2">
+                    <label asp-for="Email" class="font-weight-bold mr-4">@nameof(Model.Email):</label>
+                    <a href="mailto://@Model.Email">@Model.Email</a>
+                </div>
+                <div class="col-md-6 p-2">
+                    <label asp-for="PhoneNumber" class="font-weight-bold mr-4">Phone Number:</label>
+                    @Model.PhoneNumber
+                </div>
+                <div class="col-md-6 p-2">
+                    <label asp-for="CommentsCount" class="font-weight-bold mr-4">Comments Count:</label>
+                    @Model.CommentsCount
+                </div>
+                <div class="col-md-6 p-2">
+                    <label asp-for="RepliesCount" class="font-weight-bold mr-4">Replies Count:</label>
+                    @Model.RepliesCount
+                </div>
+                <div class="col-md-6 p-2">
+                    <label asp-for="CensoredCommentsCount" class="font-weight-bold mr-4">Count of censored comments:</label>
+                    @Model.CensoredCommentsCount
+                </div>
+                <div class="col-md-6 p-2">
+                    <label asp-for="DeletedCommentsCount" class="font-weight-bold mr-4">Count of deleted comments:</label>
+                    @Model.DeletedCommentsCount
+                </div>
+                @if (Model.Roles.Any())
+                {
+                    <div class="col-md-6 p-2">
+                        <label asp-for="Roles" class="font-weight-bold mr-4">User roles:</label>
+                        @string.Join(", ", Model.Roles)
+                    </div>
+                }
+
+                @if (Model.Roles.Contains("Author") || Model.Roles.Contains("Administrator"))
+                {
+                    <div class="col-md-12 p-2">
+                        <label asp-for="PostsCount" class="font-weight-bold mr-4">Posts Count:</label>
+                        @Model.PostsCount
+                    </div>
+                    <div class="col-md-12 p-2">
+                        <i class="fa fa-facebook"></i>
+                        <label asp-for="FacebookProfileUrl" class="font-weight-bold mr-4">Facebook:</label>
+                        <a href="@Model.FacebookProfileUrl">@Model.FacebookProfileUrl</a>
+                    </div>
+                    <div class="col-md-12 p-2">
+                        <i class="fa fa-twitter"></i>
+                        <label asp-for="TwitterProfileUrl" class="font-weight-bold mr-4">Twitter:</label>
+                        <a href="@Model.TwitterProfileUrl">@Model.TwitterProfileUrl</a>
+                    </div>
+                    <div class="col-md-12 p-2">
+                        <i class="fa fa-instagram"></i>
+                        <label asp-for="InstagramProfileUrl" class="font-weight-bold mr-4">Instagram:</label>
+                        <a href="@Model.InstagramProfileUrl">@Model.InstagramProfileUrl</a>
+                    </div>
+                }
+
+            </div>            
+        </div>
+       
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

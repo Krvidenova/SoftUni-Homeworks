@@ -1,0 +1,97 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="@Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-12">
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <p class="pt-1">Avatar</p>
+                <div class="d-flex">
+                    <div class="thumb w-25 h-50 mr-30">
+                        <img src="@Model.AvatarUrl" alt="avatar" width="100%" />
+                    </div>
+                    <div class="input-file-container">
+                        <input asp-for="Input.AvatarFile" class="input-file" id="my-file" type="file">
+                        <label asp-for="Input.AvatarFile" tabindex="0" for="my-file" class="input-file-trigger primary-btn load-more pbtn-2 text-capitalize">
+                            Select a file...
+                        </label>
+                        <p class="file-return"></p>
+                    </div>
+                </div>
+                <span asp-validation-for="Input.AvatarFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="single-input-primary" disabled />
+            </div>
+            @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Author"))
+            {
+                <div class="form-group">
+                    <label asp-for="Input.FullName"></label>
+                    <input asp-for="Input.FullName" class="single-input-primary" />
+                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                @if (Model.IsEmailConfirmed)
+                {
+                    <div class="input-group">
+                        <input asp-for="Input.Email" class="single-input-primary" />
+                        <span class="input-group-addon" aria-hidden="true">
+                            <span class="lnr lnr-checkmark-circle text-success"></span>
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <input asp-for="Input.Email" class="single-input-primary" />
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                }
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber"></label>
+                <input asp-for="Input.PhoneNumber" class="single-input-primary" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Author"))
+            {
+                <div class="form-group">
+                    <i class="fa fa-facebook"></i>
+                    <label asp-for="Input.FacebookProfileUrl"></label>
+                    <input asp-for="Input.FacebookProfileUrl" class="single-input-primary" />
+                    <span asp-validation-for="Input.FacebookProfileUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-twitter"></i>
+                    <label asp-for="Input.TwitterProfileUrl"></label>
+                    <input asp-for="Input.TwitterProfileUrl" class="single-input-primary" />
+                    <span asp-validation-for="Input.TwitterProfileUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-instagram"></i>
+                    <label asp-for="Input.InstagramProfileUrl"></label>
+                    <input asp-for="Input.InstagramProfileUrl" class="single-input-primary" />
+                    <span asp-validation-for="Input.InstagramProfileUrl" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group button-group-area text-center">
+                <button type="submit" class="primary-btn load-more pbtn-2 text-capitalize">Save</button>
+                <a asp-page="./Index" class="genric-btn default circle pbtn-2 text-capitalize">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/image.js"></script>
+}

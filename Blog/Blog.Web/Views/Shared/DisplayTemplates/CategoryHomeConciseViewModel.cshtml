@@ -1,0 +1,30 @@
+﻿@model CategoryHomeConciseViewModel
+
+@{
+    var background = "";
+    if (Model.Order % 2 == 0)
+    {
+        background = "with-background-area";
+    }
+}
+<section class="section-gap @background" id="@Model.Name.ToLowerInvariant()">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-70 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">@Model.Title</h1>
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @await Component.InvokeAsync("PostsByCategory", new { categoryName = Model.Name })
+            <div class="row col-12">
+                <a asp-page="/@Model.Name/index" class="primary-btn load-more pbtn-2 text-uppercase mx-auto mt-25">More @Model.Name News</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,21 @@
+﻿@model ReplyViewModel
+
+<div class="comment-list pl-5">   
+    <div class="row col-12">
+        <div class="col-2 pl-0">
+            <img src="@Model.AuthorAvatarUrl" width="80%" alt="">
+        </div>
+        <div class="desc col-10 p-0">
+            <h5>@Model.Author</h5>
+            <p class="date mb-1">@Model.CreationDate</p>
+            @if (Model.LastUpdateDate != string.Empty)
+            {
+                <p class="date">Edited on: @Model.LastUpdateDate</p>
+            }
+            <p class="comment">
+                @Model.Content
+            </p>
+        </div>
+    </div>
+</div>
+

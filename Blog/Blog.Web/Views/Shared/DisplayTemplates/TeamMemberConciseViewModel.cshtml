@@ -1,0 +1,26 @@
+﻿@model TeamMemberConciseViewModel
+
+<div class="single-team">
+    <div class="thumb">
+        <img class="img-fluid" src="@Model.AvatarUrl" alt="">
+        <div class="align-items-center justify-content-center d-flex">
+            @if (Model.FacebookProfileUrl != null)
+            {
+                <a href="@Model.FacebookProfileUrl" target="_blank"><i class="fa fa-facebook"></i></a>
+            }
+            @if (Model.TwitterProfileUrl != null)
+            {
+                <a href="@Model.TwitterProfileUrl" target="_blank"><i class="fa fa-twitter"></i></a>
+            }
+            @if (Model.InstagramProfileUrl != null)
+            {
+                <a href="@Model.InstagramProfileUrl" target="_blank"><i class="fa fa-instagram"></i></a>
+            }
+        </div>
+    </div>
+    <div class="meta-text mt-30 text-center">
+        <h4>@(Model.FullName??Model.Username)</h4>
+        <p>@Model.Position</p>
+    </div>
+</div>
+

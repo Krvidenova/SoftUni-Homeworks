@@ -1,0 +1,70 @@
+﻿@model PostDeleteViewModel
+
+@{
+    ViewData["Title"] = $"Confirmation page for deleting post with ID: {Model.Id}";
+}
+
+<div class="container">
+    <div class="section-top-border">
+        <a asp-area="Author" asp-controller="Posts" asp-action="Index" style="font-size: medium">Back to Manage Posts Page</a>
+        <div class="col-lg-9 mx-auto pb-30">
+            <h2 class="mt-3">@ViewData["Title"]</h2>
+            <div class="row col-lg-12 d-flex justify-content-between">
+                <h3 class="top-wrapper">
+                    Post Category:
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Details" asp-route-id="@Model.CategoryId" title="Category details"> @Model.Category</a>
+                </h3>
+            </div>
+            <img class="img-post" src="@Model.ImageUrl" width="100%" alt="">
+            <div class="top-wrapper">
+                <div class="row d-flex justify-content-between">
+                    <h2 class="col-lg-7 col-md-12 text-uppercase">
+                        @Model.Title
+                    </h2>
+                    <div class="col-lg-5 col-md-12 right-side d-flex justify-content-end p-0">
+                        <div class="desc">
+                            <h2>
+                                @Model.Author
+                            </h2>
+                            <h3>Published: @Model.CreationDate</h3>
+                            @if (Model.LastUpdateDate != "")
+                            {
+                                <h3>Last updated: @Model.LastUpdateDate</h3>
+                            }
+                        </div>
+                        <div class="user-img w-25">
+                            <img src="@Model.AuthorAvatarUrl" width="100%" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tags">
+                <ul>
+                    @Html.DisplayFor(model => model.Tags)
+                </ul>
+            </div>
+            <div class="single-post-content">
+                @Html.Raw(Model.Content)
+            </div>
+            <div class="bottom-wrapper mb-20">
+                <div class="row">
+                    <div class="col-lg-4 single-b-wrap col-md-12">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        @Model.ViewCounter views
+                    </div>
+                    <div class="col-lg-4 single-b-wrap col-md-12">
+                        <i class="fa fa-comment-o" aria-hidden="true"></i>
+                        @Model.CommentsCount comments
+                    </div>
+                </div>
+            </div>
+            <h3 class="text-danger text-center">Deleting this post will permanently remove it from the database, and this cannot be recovered.</h3>
+            <h3 class="text-danger text-center">Are you sure you want to delete post with ID: @Model.Id ?</h3>
+            <div class="form-group button-group-area text-center pt-20">
+                <a asp-area="Admin" asp-controller="Posts" asp-action="Destroy" asp-route-id="@Model.Id" class="genric-btn danger circle">Delete</a>
+                <a asp-area="Author" asp-controller="Posts" asp-action="Details" asp-route-id="@Model.Id" class="genric-btn default circle">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
